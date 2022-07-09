@@ -2,7 +2,7 @@ package com.example.almuni.controller;
 
 import com.example.almuni.dto.JobAdvertisementDto;
 import com.example.almuni.entity.JobAdvertisement;
-import com.example.almuni.service.JobAdvertisementService;
+import com.example.almuni.service.IJobAdvertisementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.util.List;
 public class JobAdvertisementController {
 
     @Autowired
-    private JobAdvertisementService jobAdvertisementService;
+    private IJobAdvertisementService jobAdvertisementService;
 
     @GetMapping
     public ResponseEntity<List<JobAdvertisementDto>> getAllJobsAds(){

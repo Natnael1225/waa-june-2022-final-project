@@ -3,24 +3,56 @@ package com.example.almuni.service.impl;
 import com.example.almuni.dto.StudentDto;
 import com.example.almuni.entity.Department;
 import com.example.almuni.entity.Student;
-import com.example.almuni.repository.StudentRepository;
-import com.example.almuni.service.StudentService;
+import com.example.almuni.repository.IStudentRepository;
+import com.example.almuni.service.IStudentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class StudentServiceImpl implements StudentService {
+@Transactional
+public class StudentServiceImpl implements IStudentService {
 
     @Autowired
-    private StudentRepository studentRepository;
+    private IStudentRepository studentRepository;
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Override
+    public StudentDto deleteStudentById(Long id) {
+
+        if(studentRepository.findById(id).isPresent()){
+            Student deletedStudent =  studentRepository.findById(id).get();
+          studentRepository.delete(deletedStudent);
+          return modelMapper.map(deletedStudent,StudentDto.class);
+        }else {
+            throw new IllegalStateException("There is no such student with this " + id);
+        }
+    }
+
+    @Override
+    public StudentDto updateStudent(Long id) {
+
+        if(studentRepository.findById(id).isPresent()){
+            Student updatedStudent =  studentRepository.findById(id).get();
+            studentRepository.save(updatedStudent);
+            return modelMapper.map(updatedStudent,StudentDto.class);
+        }else {
+            throw new IllegalStateException("There is no such student with this " + id);
+        }
+    }
+
+    @Override
+    public StudentDto addNewStudent(Student student) {
+
+        return modelMapper.map(studentRepository.save(student), StudentDto.class);
+    }
 
     @Override
     public List<StudentDto> findStudentsByState(String state) {
@@ -38,7 +70,6 @@ public class StudentServiceImpl implements StudentService {
         return studentByCity.stream()
                 .map(student -> modelMapper.map(student,StudentDto.class))
                 .collect(Collectors.toList());
-
     }
 
     @Override
@@ -61,4 +92,9 @@ public class StudentServiceImpl implements StudentService {
        return studentDto;
     }
 
+    @Override
+    public Student findByEmail(String email) {
+        var studentByEmail = studentRepository.findByEmail(email);
+        return studentByEmail;
+    }
 }

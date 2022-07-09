@@ -1,8 +1,9 @@
-package com.example.almuni.service.Impl;
+package com.example.almuni.service.impl;
 
-import com.example.almuni.Dto.FacultyDto;
+
+import com.example.almuni.dto.FacultyDto;
 import com.example.almuni.entity.Faculty;
-import com.example.almuni.repository.FacultyRepo;
+import com.example.almuni.repository.IFacultyRepository;
 import com.example.almuni.service.IFacultyService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 @Service
 @Transactional
-public class FacultyService implements IFacultyService {
+public class FacultyServiceImpl implements IFacultyService {
+
     @Autowired
-    private FacultyRepo facultyRepo;
+    private IFacultyRepository facultyRepo;
     @Autowired
     private ModelMapper modelMapper;
+
     @Override
-    public ResponseEntity<FacultyDto> addFaculty(FacultyDto facultyDto) {
-        var faculty= modelMapper.map(facultyDto, Faculty.class);
+    public ResponseEntity<FacultyDto> addFaculty(Faculty faculty) {
+
+        var newFaculty= modelMapper.map(faculty, Faculty.class);
         facultyRepo.save(faculty);
 
         return ResponseEntity.ok(modelMapper.map(faculty,FacultyDto.class));
@@ -29,8 +33,10 @@ public class FacultyService implements IFacultyService {
 
     @Override
     public ResponseEntity<List<FacultyDto>> getAllFaculty() {
+
         List<FacultyDto> facultyDtos=new ArrayList<>();
         var  list =facultyRepo.findAll();
+
         for(Faculty faculty:list){
             facultyDtos.add(modelMapper.map(faculty,FacultyDto.class));
 
@@ -40,19 +46,21 @@ public class FacultyService implements IFacultyService {
 
     @Override
     public ResponseEntity<FacultyDto> getFacultyById(Long id) {
+
         var faculty=facultyRepo.findById(id).orElse(null);
         var facultyDto=modelMapper.map(faculty,FacultyDto.class);
+
         return ResponseEntity.ok(facultyDto);
     }
 
     @Override
     public String deleteById(Long id) {
+
         String faculty="null";
 
         if(facultyRepo.findById(id).isPresent()){
             facultyRepo.deleteById(id);
             faculty= "deleted";
-
         }
         else{
             faculty="no faculty with this id ="+id;
@@ -62,17 +70,22 @@ public class FacultyService implements IFacultyService {
     }
 
     @Override
-    public ResponseEntity<FacultyDto> updateFaculty(FacultyDto facultyDto, Long id) {
-        if(facultyRepo.findById(id).isPresent()){
-            var faculty=modelMapper.map(facultyDto,Faculty.class);
+    public ResponseEntity<FacultyDto> updateFaculty(Faculty faculty, Long id) {
 
+        if(facultyRepo.findById(id).isPresent()){
             facultyRepo.save(faculty);
-            return ResponseEntity.ok(facultyDto);
+            var updateFaculty=modelMapper.map(faculty,FacultyDto.class);
+            return ResponseEntity.ok(updateFaculty);
         }
         else{
             throw new RuntimeException("faculty with this id"+id+"is not found");
         }
 
+    }
 
+    @Override
+    public Faculty findByEmail(String email) {
+        var facultyByEmail = facultyRepo.findByEmail(email);
+        return facultyByEmail;
     }
 }

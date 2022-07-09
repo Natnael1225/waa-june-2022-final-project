@@ -2,21 +2,23 @@ package com.example.almuni.service.impl;
 
 import com.example.almuni.dto.JobAdvertisementDto;
 import com.example.almuni.entity.JobAdvertisement;
-import com.example.almuni.repository.JobAdvertisementRepository;
-import com.example.almuni.service.JobAdvertisementService;
+import com.example.almuni.repository.IJobAdvertisementRepository;
+import com.example.almuni.service.IJobAdvertisementService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class JobAdvertisementServiceImpl implements JobAdvertisementService {
+@Transactional
+public class JobAdvertisementServiceImpl implements IJobAdvertisementService {
 
     @Autowired
-    private JobAdvertisementRepository jobAdvertisementRepository;
+    private IJobAdvertisementRepository jobAdvertisementRepository;
     @Autowired
     private ModelMapper modelMapper;
 

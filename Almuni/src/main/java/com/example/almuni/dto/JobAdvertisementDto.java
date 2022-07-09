@@ -1,13 +1,30 @@
 package com.example.almuni.dto;
 
-import com.example.almuni.entity.Address;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+import javax.persistence.*;
+import java.util.List;
+
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class JobAdvertisementDto {
+
 
     private Long id;
     private String description;
     private String benefits;
-    private Address address;
+
+    @ManyToMany //todo ?
+    private List<FileDto> files;
+    @OneToOne
+    private AddressDto address;
+//    @OneToMany
+//    @Embedded
+//    private List<Tag> tags;  //todo ???????????????????/
+
 }

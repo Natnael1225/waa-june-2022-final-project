@@ -1,0 +1,49 @@
+----truncate table users restart identity cascade;
+----
+----ALTER SEQUENCE users_id_seq RESTART WITH 1;
+----
+----ALTER SEQUENCE address_id_seq RESTART WITH 1;
+----
+----ALTER SEQUENCE property_id_seq RESTART WITH 1;
+----
+----ALTER SEQUENCE photo_id_seq RESTART WITH 1;
+----
+----ALTER SEQUENCE tenant_property_id_seq RESTART WITH 1;
+--
+--
+----address
+--INSERT INTO address (id, city, state, street, zip_code, faculty_id, student_id)
+--VALUES (1, 'fairfiled', 'IA', '200th street', '52557', 1, 1);
+--
+--
+----comments
+--INSERT INTO comments (id, comments, student_id)
+-- VALUES (1, 'he is good', 1);
+--
+--
+----course
+--INSERT INTO course (id, course_code, name, major_id)
+--VALUES (nextval('users_id_seq'), '544', 'WAA', 1);
+--
+----department
+--INSERT INTO department (id, name)
+--VALUES (1, 'Compro');
+--
+---- faculty
+--INSERT INTO faculty (id, activ, email, first_name, gpa, last_logged_in_at, last_name, password, role)
+--VALUES (1,true, 'rob@gmail.com', 'rob', 3.8, null, 'john', 'reallis', 'admin');
+--
+----file
+--INSERT INTO files (id)
+--VALUES (1);
+--
+----jobadevertisement
+--INSERT INTO job_advertisement (id, benefits, company_name, description, address_id)
+--VALUES (1, 'dentist', 'amazon', 'software engineer', 1);
+--
+----student
+--INSERT INTO student (id, active, email, first_name, gpa, last_logged_in_at, last_name, password, role, major_id)
+-- VALUES (1, true, 'realy@gmail.com','Blake', 3.6, null, 'Donald', 'lllll', 'user', 1);
+
+insert into student (active, email, first_name, gpa, last_logged_in_at, last_name, major_id, password, role)
+values (true,'robeil@gmail.com', 'robeil', null, null, 'Aregawi', 1, 'realpassword', null)

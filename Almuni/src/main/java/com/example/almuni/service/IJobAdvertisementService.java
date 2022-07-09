@@ -1,14 +1,20 @@
 package com.example.almuni.service;
 
-import com.example.almuni.Dto.JobAdvertisementDto;
+
+import com.example.almuni.dto.JobAdvertisementDto;
 import com.example.almuni.entity.JobAdvertisement;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface IJobAdvertisementService {
-    ResponseEntity<JobAdvertisementDto> add(JobAdvertisementDto jobAdvertisementDto);
-    ResponseEntity<List<JobAdvertisementDto>> getAll(JobAdvertisementDto jobAdvertisementDto);
-//    ResponseEntity<JobAdvertisementDto>
+
+    List<JobAdvertisementDto> findAllJobAdvertisementByCompanyName(String companyName);
+    void updateJobAdvertisement(Long id, JobAdvertisement jobAdvertisement);
+    List<JobAdvertisementDto> findAllJobAdvertisementByState(String state);
+    List<JobAdvertisementDto> findAllJobAdvertisementByCity(String city);
+    void addNewJobAdvertisement(JobAdvertisement jobAdvertisement);
+    JobAdvertisementDto findJobAdvertisementById(Long id);
+    void deleteJobAdvertisementById(Long id);
+    List<JobAdvertisementDto> findAllJobAds();
 
 }
